@@ -1,0 +1,91 @@
+/* MainContent Base Styles */
+.main-content {
+  padding: 20px;
+  background-color: #f4f4f4;
+  height: 100vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+  transition: margin-left 0.3s ease, width 0.3s ease;
+  margin-left: 240px;
+  width: calc(100% - 240px);
+}
+
+/* Adjust for Collapsed Sidebar */
+.main-content.sidebar-collapsed {
+  margin-left: 90px;
+  width: calc(100% - 90px);
+}
+
+/* Columns Layout */
+.columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* Row */
+.row {
+  display: flex;
+  width: 100%;
+  gap: 20px;
+}
+
+/* Individual Column */
+.column {
+  flex: 1;
+  min-width: 300px;
+}
+
+/* Fixed Row for Fixed Containers */
+.fixed-row {
+  background-color: #f4f4f4; /* To match the background color */
+}
+
+/* Fixed Container */
+.fixed-container {
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Table Container */
+.table-container {
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: auto;
+  margin-bottom: 20px; /* Gap between upper and lower tables */
+}
+
+/* Table Styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+h3 {
+  margin: 0;
+  padding: 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+

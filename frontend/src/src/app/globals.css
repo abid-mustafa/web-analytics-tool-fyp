@@ -1,0 +1,17 @@
+/* Globals.css */
+body {
+  margin: 0;
+  font-family: "Arial", sans-serif;
+  background-color: #f9f9f9;
+}
+
+.page-container {
+  display: flex;
+}
+
+.main-content {
+  flex-grow: 1;
+  background-color: #ffffff; /* White content background */
+  height: 100vh; /* Ensure it starts with full height */
+  overflow-y: auto; /* Allow scrolling for long content */
+}
