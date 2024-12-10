@@ -29,9 +29,8 @@ __pycache__/
 .venv/
 venv/
 
-# React build files
-frontend/build/
-frontend/node_modules/
+# Next JS files
+.next/
 
 # MacOS system files
 .DS_Store
