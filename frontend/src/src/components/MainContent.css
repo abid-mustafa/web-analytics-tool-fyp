@@ -1,91 +1,121 @@
 /* MainContent Base Styles */
 .main-content {
-  padding: 20px;
   background-color: #f4f4f4;
   height: 100vh;
   overflow-y: auto;
   box-sizing: border-box;
-  transition: margin-left 0.3s ease, width 0.3s ease;
-  margin-left: 240px;
-  width: calc(100% - 240px);
+  margin-left: 240px; /* Matches Sidebar's original width */
+  width: calc(100% - 240px); /* Dynamically adjust with Sidebar */
+  transition: margin-left 0.3s ease, width 0.3s ease; /* Synchronized transition */
+  padding: 0; /* No padding directly on main-content */
 }
 
 /* Adjust for Collapsed Sidebar */
 .main-content.sidebar-collapsed {
-  margin-left: 90px;
-  width: calc(100% - 90px);
+  margin-left: 100px; /* Matches Sidebar's collapsed width */
+  width: calc(100% - 100px); /* Adjust width proportionally */
 }
 
-/* Columns Layout */
-.columns {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-/* Row */
-.row {
-  display: flex;
-  width: 100%;
-  gap: 20px;
-}
-
-/* Individual Column */
-.column {
-  flex: 1;
-  min-width: 300px;
-}
-
-/* Fixed Row for Fixed Containers */
-.fixed-row {
-  background-color: #f4f4f4; /* To match the background color */
-}
-
-/* Fixed Container */
-.fixed-container {
-  background-color: #fff;
-  padding: 20px;
-  border: 1px solid #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+/* Enhanced Header Styles */
+.main-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 15px 25px; /* Increased padding for better spacing */
+  background: linear-gradient(135deg, #1e3a8a, #2563eb); /* Attractive gradient */
+  color: #fff; /* White text for better contrast */
+  border-bottom: 2px solid #1e40af; /* Subtle border at the bottom */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-/* Table Container */
-.table-container {
-  background-color: #fff;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  overflow: auto;
-  margin-bottom: 20px; /* Gap between upper and lower tables */
-}
-
-/* Table Styles */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
-}
-
-th, td {
-  text-align: left;
-  padding: 8px;
-  border: 1px solid #ddd;
-}
-
-th {
-  background-color: #f4f4f4;
+.main-header h1 {
+  font-size: 1.8rem;
   font-weight: bold;
-}
-
-h3 {
+  color: #ffffff; /* Ensure header title pops */
   margin: 0;
-  padding: 0;
-  font-size: 1.2rem;
-  color: #333;
 }
 
+/* DateTime Picker Container */
+.datetime-picker-container {
+  display: flex;
+  gap: 20px; /* Space between datetime pickers */
+  align-items: center; /* Align items vertically */
+}
+
+/* Horizontal Alignment for Label and Input */
+.datetime-picker {
+  display: flex;
+  align-items: center; /* Align label and input vertically */
+  gap: 10px; /* Space between label and input */
+}
+
+.datetime-picker label {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #ffffff; /* Match label color to header */
+  white-space: nowrap; /* Prevent label text wrapping */
+}
+
+/* Enhanced Date Picker Styles */
+.flatpickr {
+  width: 120px; /* Adjusted width for compact design */
+  font-size: 1rem;
+  padding: 8px 12px; /* Comfortable padding */
+  border: 2px solid #2563eb; /* Themed border */
+  border-radius: 12px; /* Smooth corners */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  background: linear-gradient(135deg, #ffffff, #f0f4ff); /* Light gradient */
+  color: #333; /* Dark text for readability */
+  font-weight: 500; /* Slightly bold font */
+  transition: all 0.3s ease; /* Smooth transitions */
+}
+
+/* Hover Effect for Date Picker */
+.flatpickr:hover {
+  border-color: #1e3a8a; /* Darker blue on hover */
+  background: linear-gradient(135deg, #f8fbff, #e6efff); /* Brighter gradient */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Enhanced shadow */
+}
+
+/* Focus Effect for Date Picker */
+.flatpickr:focus-within {
+  border-color: #1e40af; /* Brighter blue for focus */
+  background: linear-gradient(135deg, #ffffff, #e8f0ff); /* Subtle focus effect */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Stronger shadow */
+}
+
+/* Placeholder Styling */
+.flatpickr input::placeholder {
+  color: #aaa; /* Light gray placeholder text */
+  font-style: italic; /* Subtle styling */
+}
+
+/* Input Text */
+.flatpickr input {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  border: none; /* Remove inner border */
+  background: transparent;
+  outline: none; /* Remove default focus outline */
+}
+
+/* Content Area Below Header */
+.main-content-body {
+  padding: 20px; /* Apply padding to everything below the header */
+}
+
+/* Empty Page Styling */
+.empty-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 60px); /* Full height minus header */
+  color: #777;
+  font-size: 1.2rem;
+  font-style: italic;
+  text-align: center;
+}

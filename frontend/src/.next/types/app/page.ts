@@ -1,4 +1,4 @@
-// File: D:\UNI\NextTesting\fyptest6.0\web-insight\src\app\page.tsx
+// File: D:\UNI\FYP FRONTEND\web-analytics-tool-fyp\frontend\src\src\app\page.tsx
 import * as entry from '../../../src/app/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

@@ -1,98 +1,108 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import "./DynamicTable.css";
 
-const DynamicTable = ({ apiUrl }) => {
-  const [data, setData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+const DynamicTable = ({
+  title,
+  fetchData, // Function to fetch data
+  tableKey, // Unique key to identify the table
+  rowsPerPage = 6, // Fixed rows per page
+}) => {
+  const [data, setData] = useState([]); // Current data for the table
+  const [loading, setLoading] = useState(true); // Loading state
+  const [error, setError] = useState(null); // Error state
+  const [offset, setOffset] = useState(0); // Offset for pagination
 
+  // Fetch data when the offset or tableKey changes
   useEffect(() => {
-    const fetchData = async () => {
+    const loadTableData = async () => {
+      setLoading(true);
+      setError(null);
+
       try {
-        const response = await fetch(apiUrl);
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        const result = await response.json();
-        setData(result);
+        const newData = await fetchData(offset, tableKey); // Fetch data
+        setData(newData); // Directly set data array
       } catch (err) {
-        setError(err.message);
+        setError("Failed to load data.");
+        setData([]);
       } finally {
-        setIsLoading(false);
+        setLoading(false);
       }
     };
 
-    fetchData();
-  }, [apiUrl]);
+    loadTableData();
+  }, [offset, fetchData, tableKey]);
 
-  const renderRows = () => {
-    if (!data || !data.values) return null;
-
-    return data.values.map((row, index) => {
-      // Skip the "Total" keyword row
-      if (row === "Total") return null;
-
-      // Render all other rows
-      if (row && typeof row === "object") {
-        return (
-          <tr key={index}>
-            {Object.values(row).map((value, colIndex) => (
-              <td key={colIndex}>{value || "N/A"}</td>
-            ))}
-          </tr>
-        );
-      }
-      return null; // Skip non-object values except the Total (handled below)
-    });
+  // Pagination: Next Page
+  const handleNextPage = () => {
+    setOffset((prevOffset) => prevOffset + rowsPerPage);
   };
 
-  const renderTotalRow = () => {
-    if (!data || !data.values) return null;
-
-    // Find the "Total" value (assumes it's the last numeric value in the array)
-    const totalValue = data.values.find((item) => typeof item === "number");
-
-    if (totalValue) {
-      return (
-        <tr>
-          <td colSpan={Object.keys(data.values[0]).length - 1}>
-            <strong>Total</strong>
-          </td>
-          <td>
-            <strong>{totalValue}</strong>
-          </td>
-        </tr>
-      );
-    }
-
-    return null; // Return null if no Total value is found
+  // Pagination: Previous Page
+  const handlePrevPage = () => {
+    setOffset((prevOffset) => Math.max(0, prevOffset - rowsPerPage));
   };
 
   return (
     <div className="table-container">
-      {isLoading && <p>Loading...</p>}
-      {error && <p>Error: {error}</p>}
-      {!isLoading && !error && data && data.values && data.values.length > 0 ? (
+      {/* Table Title */}
+      <h3 className="table-title">{title}</h3>
+
+      {/* Loading State */}
+      {loading && <p className="loading">Loading...</p>}
+
+      {/* No Data Message */}
+      {!loading && data.length === 0 && (
+        <div className="no-data-message">
+          No data was recorded at this date.
+        </div>
+      )}
+
+      {/* Table Rendering */}
+      {!loading && data.length > 0 && (
         <>
-          <h3>{data.name}</h3> {/* Use `name` for table title */}
           <table>
             <thead>
               <tr>
-                {Object.keys(data.values[0]).map((header, index) => (
+                {Object.keys(data[0]).map((header, index) => (
                   <th key={index}>{header.replace(/([A-Z])/g, " $1")}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {renderRows()}
-              {renderTotalRow()}
+              {data.map((row, rowIndex) => (
+                <tr key={rowIndex}>
+                  {Object.values(row).map((value, colIndex) => (
+                    <td key={colIndex}>{value || "N/A"}</td>
+                  ))}
+                </tr>
+              ))}
             </tbody>
           </table>
+
+          {/* Pagination Controls */}
+          <div className="pagination-controls">
+            <button
+              onClick={handlePrevPage}
+              disabled={offset === 0}
+              className="pagination-button"
+            >
+              &lt; {/* Left Arrow */}
+            </button>
+            <button
+              onClick={handleNextPage}
+              disabled={data.length < rowsPerPage}
+              className="pagination-button"
+            >
+              &gt; {/* Right Arrow */}
+            </button>
+          </div>
         </>
-      ) : (
-        !isLoading && <p>No data available</p>
       )}
+
+      {/* Error State */}
+      {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
 };
