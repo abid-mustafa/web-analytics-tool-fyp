@@ -6,6 +6,11 @@ const { getConnectionPool } = require("./database");
 const trackingRoutes = require("./controllers/tracking.controller");
 const pageRoutes = require("./controllers/pages.controller");
 const eventRoutes = require("./controllers/events.controller");
+const userRoutes = require("./controllers/users.controller");
+
+const PORT = 5000;
+
+// TODO: Update CORS policy
 
 db = getConnectionPool();
 
@@ -27,10 +32,11 @@ app.use(
 app.use("/api/tracking", trackingRoutes);
 app.use("/api/pages", pageRoutes);
 app.use("/api/events", eventRoutes);
+app.use("/api/users", userRoutes);
 
 db.query("SELECT 1")
   .then(() => {
     console.log("Database connection successful.");
-    app.listen(3000, () => console.log("Server started at 3000"));
+    app.listen(PORT, () => console.log(`Server started at ${PORT}`));
   })
   .catch((err) => console.log("Database connection unsuccessful", err));
