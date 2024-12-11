@@ -1,4 +1,5 @@
-const { getConnection } = require("../database");
+const { getConnection, getConnectionPool } = require("../database");
+const db = getConnectionPool();
 let dbConnection;
 getConnection().then((conn) => {
   dbConnection = conn;
@@ -165,3 +166,136 @@ module.exports.insertEvent = async (
     throw error;
   }
 };
+
+module.exports.insertVisit = async (
+  visit_id,
+  visitor_id,
+  user_id,
+  country,
+  city,
+  device_category,
+  browser,
+  operating_system,
+  referrer_url
+) => {
+  try {
+    await dbConnection.beginTransaction(); const checkVisitQuery = `
+      SELECT * FROM visits WHERE visit_id = ?;
+    `;
+
+    [visitExists] = await dbConnection.query(checkVisitQuery, [visit_id]);
+
+    if (visitExists.length === 0) {
+      // geo
+      const insertGeoQuery = `
+      INSERT INTO geo (city, country) 
+      VALUES (?, ?) 
+      ON DUPLICATE KEY UPDATE geo_id = LAST_INSERT_ID(geo_id);
+      `;
+      const [insertGeoResult] = await dbConnection.query(insertGeoQuery, [
+        city,
+        country,
+      ]);
+      const geo_id = insertGeoResult.insertId;
+
+      // device
+      const insertDeviceQuery = `
+      INSERT INTO devices (device_category, browser, operating_system)
+      VALUES (?, ?, ?)
+      ON DUPLICATE KEY UPDATE device_id = LAST_INSERT_ID(device_id);
+      `;
+
+      const [insertDeviceResult] = await dbConnection.query(insertDeviceQuery, [
+        device_category,
+        browser,
+        operating_system,
+      ]);
+      const device_id = insertDeviceResult.insertId;
+
+      // user
+      const insertUserQuery = `
+      INSERT INTO users (user_id, visitor_id, device_id, geo_id)
+      VALUES (?, ?, ?, ?)
+      ON DUPLICATE KEY UPDATE user_id = VALUES(user_id);
+      `;
+      await dbConnection.query(insertUserQuery, [
+        user_id,
+        visitor_id,
+        device_id,
+        geo_id,
+      ]);
+
+      // visit
+      // Insert the new visit only if it doesn't already exist
+
+      const insertVisitQuery = `
+      INSERT INTO visits (visit_id, visitor_id, user_id, geo_id)
+          VALUES (?, ?, ?, ?)
+      ON DUPLICATE KEY UPDATE 
+          visitor_id = VALUES(visitor_id),
+          user_id = VALUES(user_id),
+          geo_id = VALUES(geo_id);
+      `;
+
+      const [insertVisitResult] = await dbConnection.query(insertVisitQuery, [
+        visit_id,
+        visitor_id,
+        user_id,
+        geo_id,
+      ]);
+    }
+
+    if (referrer_url) {
+      const insertReferrerQuery = `
+      INSERT INTO referrals (visit_id, referrer_url)
+          VALUES (?, ?)
+      ON DUPLICATE KEY UPDATE 
+          visit_id = VALUES(visit_id),
+          referrer_url = VALUES(referrer_url);
+      `;
+
+      await dbConnection.query(insertReferrerQuery, [
+        visit_id,
+        referrer_url
+      ]);
+    }
+
+    await dbConnection.commit();
+  } catch (error) {
+    // Rollback transaction on error
+    await dbConnection.rollback();
+    throw error;
+  }
+}
+
+module.exports.insertPageview = async (visit_id, page_title, page_url) => {
+  try {
+    const insertPageviewQuery = `
+      INSERT INTO page_views (visit_id, page_title, page_url)
+          VALUES (?, ?, ?);
+      `;
+
+    await db.query(insertPageviewQuery, [
+      visit_id,
+      page_title,
+      page_url
+    ]);
+  } catch (error) {
+    throw error;
+  }
+}
+
+module.exports.insertEvent = async (visit_id, event_category, event_action, event_name, event_value, page_title, page_url) => {
+  try {
+    const insertEventQuery = `
+      INSERT INTO events (visit_id, event_category, event_action, event_name, event_value, page_title, page_url)
+          VALUES (?, ?, ?, ?, ?, ?, ?);
+      `;
+
+    await db.query(insertEventQuery, [
+      visit_id, event_category, event_action, event_name, event_value, page_title, page_url
+    ]);
+  } catch (error) {
+    throw error;
+  }
+}

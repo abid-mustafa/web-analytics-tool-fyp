@@ -37,6 +37,6 @@ app.use("/api/users", userRoutes);
 db.query("SELECT 1")
   .then(() => {
     console.log("Database connection successful.");
-    app.listen(PORT, () => console.log(`Server started at ${PORT}`));
+    app.listen(PORT, '0.0.0.0', () => console.log(`Server started at ${PORT}`));
   })
   .catch((err) => console.log("Database connection unsuccessful", err));
