@@ -6,12 +6,14 @@ const usersService = require("../services/users.service");
 
 router.get("/users-by-country", async (req, res) => {
     try {
-        const offset = parseInt(req.query.offset);
-        const startDate = req.query.start_date;
-        const endDate = req.query.end_date;
+        const { offset, start_date: startDate, end_date: endDate } = req.query;
+
+        if (!offset || !startDate || !endDate) {
+            return res.status(400).json({ message: "Missing required parameters" });
+        }
 
         const data = await usersService.getUsersByCountry(
-            offset,
+            parseInt(offset, 10),
             startDate,
             endDate
         );
@@ -30,12 +32,14 @@ router.get("/users-by-country", async (req, res) => {
 
 router.get("/users-by-city", async (req, res) => {
     try {
-        const offset = parseInt(req.query.offset);
-        const startDate = req.query.start_date;
-        const endDate = req.query.end_date;
+        const { offset, start_date: startDate, end_date: endDate } = req.query;
+
+        if (!offset || !startDate || !endDate) {
+            return res.status(400).json({ message: "Missing required parameters" });
+        }
 
         const data = await usersService.getUsersByCity(
-            offset,
+            parseInt(offset, 10),
             startDate,
             endDate
         );
@@ -54,12 +58,14 @@ router.get("/users-by-city", async (req, res) => {
 
 router.get("/users-by-device-type", async (req, res) => {
     try {
-        const offset = parseInt(req.query.offset);
-        const startDate = req.query.start_date;
-        const endDate = req.query.end_date;
+        const { offset, start_date: startDate, end_date: endDate } = req.query;
+
+        if (!offset || !startDate || !endDate) {
+            return res.status(400).json({ message: "Missing required parameters" });
+        }
 
         const data = await usersService.getUsersByDeviceType(
-            offset,
+            parseInt(offset, 10),
             startDate,
             endDate
         );
@@ -78,12 +84,14 @@ router.get("/users-by-device-type", async (req, res) => {
 
 router.get("/users-by-browser", async (req, res) => {
     try {
-        const offset = parseInt(req.query.offset);
-        const startDate = req.query.start_date;
-        const endDate = req.query.end_date;
+        const { offset, start_date: startDate, end_date: endDate } = req.query;
+
+        if (!offset || !startDate || !endDate) {
+            return res.status(400).json({ message: "Missing required parameters" });
+        }
 
         const data = await usersService.getUsersByBrowser(
-            offset,
+            parseInt(offset, 10),
             startDate,
             endDate
         );
@@ -102,12 +110,14 @@ router.get("/users-by-browser", async (req, res) => {
 
 router.get("/users-by-operating-system", async (req, res) => {
     try {
-        const offset = parseInt(req.query.offset);
-        const startDate = req.query.start_date;
-        const endDate = req.query.end_date;
+        const { offset, start_date: startDate, end_date: endDate } = req.query;
+
+        if (!offset || !startDate || !endDate) {
+            return res.status(400).json({ message: "Missing required parameters" });
+        }
 
         const data = await usersService.getUsersByOperatingSystem(
-            offset,
+            parseInt(offset, 10),
             startDate,
             endDate
         );

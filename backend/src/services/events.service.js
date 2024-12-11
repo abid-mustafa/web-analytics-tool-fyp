@@ -39,18 +39,16 @@ module.exports.getCountByCategory = async (
         timestamp > ? AND timestamp < ?
     `;
 
-    [[result]] = await db.query(getTotalQuery, [
+    [[totalData]] = await db.query(getTotalQuery, [
       startDate,
       endDate,
     ]);
 
-    const total = {
-      'Event Category': 'Total',
-      'Event Count': result.Total,
+    if (totalData.Total === 0) {
+      return values;
     }
 
-    values.push(total);
-
+    values.push({ 'Event Category': "Total", 'Event Count': totalData.Total });
     return values;
   } catch (error) {
     throw error;
@@ -92,18 +90,16 @@ module.exports.getCountByName = async (
         timestamp > ? AND timestamp < ?
     `;
 
-    [[result]] = await db.query(getTotalQuery, [
+    [[totalData]] = await db.query(getTotalQuery, [
       startDate,
       endDate,
     ]);
 
-    const total = {
-      'Event Name': 'Total',
-      'Event Count': result.Total,
+    if (totalData.Total === 0) {
+      return values;
     }
 
-    values.push(total);
-
+    values.push({ 'Event Name': "Total", 'Event Count': totalData.Total });
     return values;
   } catch (error) {
     throw error;
@@ -146,18 +142,16 @@ module.exports.getCountByLabel = async (
           timestamp > ? AND timestamp < ?  AND event_name != '-' 
       `;
 
-    [[result]] = await db.query(getTotalQuery, [
+    [[totalData]] = await db.query(getTotalQuery, [
       startDate,
       endDate,
     ]);
 
-    const total = {
-      'Event Label': 'Total',
-      'Event Count': result.Total,
+    if (totalData.Total === 0) {
+      return values;
     }
 
-    values.push(total);
-
+    values.push({ 'Event Label': "Total", 'Event Count': totalData.Total });
     return values;
   } catch (error) {
     throw error;
@@ -207,18 +201,16 @@ module.exports.getUsersByEventName = async (
         timestamp > ? AND timestamp < ?
     `;
 
-    [[result]] = await db.query(getTotalQuery, [
+    [[totalData]] = await db.query(getTotalQuery, [
       startDate,
       endDate,
     ]);
 
-    const total = {
-      'Event Name': 'Total',
-      'Users': result.Total,
+    if (totalData.Total === 0) {
+      return values;
     }
 
-    values.push(total);
-
+    values.push({ 'Event Name': "Total", Users: totalData.Total });
     return values;
   } catch (error) {
     throw error;

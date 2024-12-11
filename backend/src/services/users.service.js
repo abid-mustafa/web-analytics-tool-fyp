@@ -35,7 +35,7 @@ module.exports.getUsersByCountry = async (
 
         const getTotalQuery = `
         SELECT
-            COUNT(u.visitor_id) as total
+            COUNT(u.visitor_id) as Total
         FROM 
             visits as v
         JOIN 
@@ -51,14 +51,12 @@ module.exports.getUsersByCountry = async (
             endDate
         ]);
 
-        const totalValue = {
-            'Country': 'Total',
-            'Users': totalData.total,
+        if (totalData.Total === 0) {
+            return values;
         }
 
-        values.push(totalValue);
+        values.push({ Country: "Total", Users: totalData.Total });
         return values;
-
     } catch (error) {
         throw error;
     }
@@ -96,7 +94,7 @@ module.exports.getUsersByCity = async (
 
         const getTotalQuery = `
         SELECT
-            COUNT(u.visitor_id) as total
+            COUNT(u.visitor_id) as Total
         FROM 
             visits as v
         JOIN 
@@ -112,14 +110,12 @@ module.exports.getUsersByCity = async (
             endDate
         ]);
 
-        const totalValue = {
-            'City': 'Total',
-            'Users': totalData.total,
+        if (totalData.Total === 0) {
+            return values;
         }
 
-        values.push(totalValue);
+        values.push({ City: "Total", Users: totalData.Total });
         return values;
-
     } catch (error) {
         throw error;
     }
@@ -157,7 +153,7 @@ module.exports.getUsersByDeviceType = async (
 
         const getTotalQuery = `
         SELECT
-            COUNT(u.visitor_id) as total
+            COUNT(u.visitor_id) as Total
         FROM 
             users as u
         JOIN 
@@ -173,14 +169,12 @@ module.exports.getUsersByDeviceType = async (
             endDate
         ]);
 
-        const totalValue = {
-            'Device Category': 'Total',
-            'Users': totalData.total,
+        if (totalData.Total === 0) {
+            return values;
         }
 
-        values.push(totalValue);
+        values.push({ 'Device Category': "Total", Users: totalData.Total });
         return values;
-
     } catch (error) {
         throw error;
     }
@@ -218,7 +212,7 @@ module.exports.getUsersByBrowser = async (
 
         const getTotalQuery = `
         SELECT
-            COUNT(u.visitor_id) as total
+            COUNT(u.visitor_id) as Total
         FROM 
             users as u
         JOIN 
@@ -234,14 +228,12 @@ module.exports.getUsersByBrowser = async (
             endDate
         ]);
 
-        const totalValue = {
-            'Browser': 'Total',
-            'Users': totalData.total,
+        if (totalData.Total === 0) {
+            return values;
         }
 
-        values.push(totalValue);
+        values.push({ Browser: "Total", Users: totalData.Total });
         return values;
-
     } catch (error) {
         throw error;
     }
@@ -279,7 +271,7 @@ module.exports.getUsersByOperatingSystem = async (
 
         const getTotalQuery = `
         SELECT
-            COUNT(u.visitor_id) as total
+            COUNT(u.visitor_id) as Total
         FROM 
             users as u
         JOIN 
@@ -295,14 +287,12 @@ module.exports.getUsersByOperatingSystem = async (
             endDate
         ]);
 
-        const totalValue = {
-            'Operating System': 'Total',
-            'Users': totalData.total,
+        if (totalData.Total === 0) {
+            return values;
         }
 
-        values.push(totalValue);
+        values.push({ 'Operating System': "Total", Users: totalData.Total });
         return values;
-
     } catch (error) {
         throw error;
     }

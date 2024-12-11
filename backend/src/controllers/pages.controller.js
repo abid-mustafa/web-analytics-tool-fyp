@@ -6,12 +6,14 @@ const pagesService = require("../services/pages.service");
 
 router.get('/views-by-page-title', async (req, res) => {
   try {
-    const offset = parseInt(req.query.offset);
-    const startDate = req.query.start_date;
-    const endDate = req.query.end_date;
+    const { offset, start_date: startDate, end_date: endDate } = req.query;
+
+    if (!offset || !startDate || !endDate) {
+      return res.status(400).json({ message: "Missing required parameters" });
+    }
 
     const data = await pagesService.getViewsByPageTitle(
-      offset,
+      parseInt(offset, 10),
       startDate,
       endDate
     );
@@ -31,12 +33,14 @@ router.get('/views-by-page-title', async (req, res) => {
 
 router.get('/sessions-by-page-referrer', async (req, res) => {
   try {
-    const offset = parseInt(req.query.offset);
-    const startDate = req.query.start_date;
-    const endDate = req.query.end_date;
+    const { offset, start_date: startDate, end_date: endDate } = req.query;
+
+    if (!offset || !startDate || !endDate) {
+      return res.status(400).json({ message: "Missing required parameters" });
+    }
 
     const data = await pagesService.getSessionsByPageReferrer(
-      offset,
+      parseInt(offset, 10),
       startDate,
       endDate
     );
@@ -56,12 +60,14 @@ router.get('/sessions-by-page-referrer', async (req, res) => {
 
 router.get('/users-by-page-title', async (req, res) => {
   try {
-    const offset = parseInt(req.query.offset);
-    const startDate = req.query.start_date;
-    const endDate = req.query.end_date;
+    const { offset, start_date: startDate, end_date: endDate } = req.query;
+
+    if (!offset || !startDate || !endDate) {
+      return res.status(400).json({ message: "Missing required parameters" });
+    }
 
     const data = await pagesService.getUsersByPageTitle(
-      offset,
+      parseInt(offset, 10),
       startDate,
       endDate
     );
@@ -81,12 +87,14 @@ router.get('/users-by-page-title', async (req, res) => {
 
 router.get('/views-by-page-location', async (req, res) => {
   try {
-    const offset = parseInt(req.query.offset);
-    const startDate = req.query.start_date;
-    const endDate = req.query.end_date;
+    const { offset, start_date: startDate, end_date: endDate } = req.query;
+
+    if (!offset || !startDate || !endDate) {
+      return res.status(400).json({ message: "Missing required parameters" });
+    }
 
     const data = await pagesService.getViewsByPageLocation(
-      offset,
+      parseInt(offset, 10),
       startDate,
       endDate
     );

@@ -32,7 +32,7 @@ module.exports.getViewsByPageTitle = async (
 
     const getTotalQuery = `
     SELECT
-        COUNT(*) as total
+        COUNT(*) as Total
     FROM
         page_views
     WHERE
@@ -44,14 +44,17 @@ module.exports.getViewsByPageTitle = async (
       endDate
     ]);
 
-    const totalValue = {
-      'Page Title': 'Total',
-      'Views': totalData.total,
+    [[totalData]] = await db.query(getTotalQuery, [
+      startDate,
+      endDate
+    ]);
+
+    if (totalData.Total === 0) {
+      return values;
     }
 
-    values.push(totalValue);
+    values.push({ 'Page Title': "Total", Views: totalData.Total });
     return values;
-
   } catch (error) {
     throw error;
   }
@@ -88,7 +91,7 @@ module.exports.getSessionsByPageReferrer = async (
 
     const getTotalQuery = `
     SELECT
-        COUNT(DISTINCT v.visitor_id) as total
+        COUNT(DISTINCT v.visitor_id) as Total
     FROM 
         referrals r
     JOIN
@@ -102,14 +105,12 @@ module.exports.getSessionsByPageReferrer = async (
       endDate
     ]);
 
-    const totalValue = {
-      'Referrer URL': 'Total',
-      'Visits': totalData.total,
+    if (totalData.Total === 0) {
+      return values;
     }
 
-    values.push(totalValue);
+    values.push({ 'Referrer URL': "Total", Views: totalData.Total });
     return values;
-
   } catch (error) {
     throw error;
   }
@@ -146,7 +147,7 @@ module.exports.getUsersByPageTitle = async (
 
     const getTotalQuery = `
     SELECT
-        COUNT(DISTINCT v.visitor_id) AS total
+        COUNT(DISTINCT v.visitor_id) as Total
     FROM 
         page_views as p
     JOIN
@@ -160,14 +161,12 @@ module.exports.getUsersByPageTitle = async (
       endDate
     ]);
 
-    const totalValue = {
-      'Page Title': 'Total',
-      'Users': totalData.total,
+    if (totalData.Total === 0) {
+      return values;
     }
 
-    values.push(totalValue);
+    values.push({ 'Page Title': "Total", Users: totalData.Total });
     return values;
-
   } catch (error) {
     throw error;
   }
@@ -202,7 +201,7 @@ module.exports.getViewsByPageLocation = async (
 
     const getTotalQuery = `
     SELECT
-        COUNT(*) AS total
+        COUNT(*) as Total
     FROM 
         page_views
     WHERE
@@ -214,14 +213,12 @@ module.exports.getViewsByPageLocation = async (
       endDate
     ]);
 
-    const totalValue = {
-      'Page URL': 'Total',
-      'Views': totalData.total,
+    if (totalData.Total === 0) {
+      return values;
     }
 
-    values.push(totalValue);
+    values.push({ 'Page URL': "Total", Views: totalData.Total });
     return values;
-
   } catch (error) {
     throw error;
   }

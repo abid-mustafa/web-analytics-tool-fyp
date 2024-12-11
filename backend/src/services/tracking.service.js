@@ -1,5 +1,4 @@
-const { getConnectionPool, getConnection } = require("../database");
-const db = getConnectionPool();
+const { getConnection } = require("../database");
 let dbConnection;
 getConnection().then((conn) => {
   dbConnection = conn;
@@ -56,12 +55,6 @@ module.exports.insertEvent = async (
     VALUES (?, ?, ?)
     ON DUPLICATE KEY UPDATE device_id = LAST_INSERT_ID(device_id);
     `;
-
-      await dbConnection.query(insertDeviceQuery, [
-        device_category,
-        browser,
-        operating_system,
-      ]);
 
       const [insertDeviceResult] = await dbConnection.query(insertDeviceQuery, [
         device_category,

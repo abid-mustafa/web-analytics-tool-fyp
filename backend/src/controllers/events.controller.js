@@ -5,12 +5,14 @@ const eventsService = require("../services/events.service");
 // TODO: CHANGE CONTROLLER NAMES
 router.get('/event-count-by-event-category', async (req, res) => {
   try {
-    const offset = parseInt(req.query.offset);
-    const startDate = req.query.start_date;
-    const endDate = req.query.end_date;
+    const { offset, start_date: startDate, end_date: endDate } = req.query;
+
+    if (!offset || !startDate || !endDate) {
+      return res.status(400).json({ message: "Missing required parameters" });
+    }
 
     const data = await eventsService.getCountByCategory(
-      offset,
+      parseInt(offset, 10),
       startDate,
       endDate
     );
@@ -29,12 +31,14 @@ router.get('/event-count-by-event-category', async (req, res) => {
 
 router.get("/event-count-by-event-name", async (req, res) => {
   try {
-    const offset = parseInt(req.query.offset);
-    const startDate = req.query.start_date;
-    const endDate = req.query.end_date;
+    const { offset, start_date: startDate, end_date: endDate } = req.query;
+
+    if (!offset || !startDate || !endDate) {
+      return res.status(400).json({ message: "Missing required parameters" });
+    }
 
     const data = await eventsService.getCountByName(
-      offset,
+      parseInt(offset, 10),
       startDate,
       endDate
     );
@@ -53,12 +57,14 @@ router.get("/event-count-by-event-name", async (req, res) => {
 
 router.get('/event-count-by-event-label', async (req, res) => {
   try {
-    const offset = parseInt(req.query.offset);
-    const startDate = req.query.start_date;
-    const endDate = req.query.end_date;
+    const { offset, start_date: startDate, end_date: endDate } = req.query;
+
+    if (!offset || !startDate || !endDate) {
+      return res.status(400).json({ message: "Missing required parameters" });
+    }
 
     const data = await eventsService.getCountByLabel(
-      offset,
+      parseInt(offset, 10),
       startDate,
       endDate
     );
@@ -77,12 +83,14 @@ router.get('/event-count-by-event-label', async (req, res) => {
 
 router.get('/active-users-by-event-name', async (req, res) => {
   try {
-    const offset = parseInt(req.query.offset);
-    const startDate = req.query.start_date;
-    const endDate = req.query.end_date;
+    const { offset, start_date: startDate, end_date: endDate } = req.query;
+
+    if (!offset || !startDate || !endDate) {
+      return res.status(400).json({ message: "Missing required parameters" });
+    }
 
     const data = await eventsService.getUsersByEventName(
-      offset,
+      parseInt(offset, 10),
       startDate,
       endDate
     );
