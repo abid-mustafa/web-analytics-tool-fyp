@@ -16,7 +16,7 @@ module.exports.getCountByCategory = async (
     FROM 
         events
     WHERE
-        timestamp > ? AND timestamp < ?
+        timestamp BETWEEN ? AND ?
     GROUP BY 
         event_category
     ORDER BY 
@@ -36,7 +36,7 @@ module.exports.getCountByCategory = async (
     FROM
         events
     WHERE
-        timestamp > ? AND timestamp < ?
+        timestamp BETWEEN ? AND ?
     `;
 
     [[totalData]] = await db.query(getTotalQuery, [
@@ -67,7 +67,7 @@ module.exports.getCountByName = async (
     FROM 
         events
     WHERE
-        timestamp > ? AND timestamp < ?
+        timestamp BETWEEN ? AND ?
     GROUP BY 
         event_action
     ORDER BY 
@@ -87,7 +87,7 @@ module.exports.getCountByName = async (
     FROM
         events
     WHERE
-        timestamp > ? AND timestamp < ?
+        timestamp BETWEEN ? AND ?
     `;
 
     [[totalData]] = await db.query(getTotalQuery, [
@@ -119,7 +119,7 @@ module.exports.getCountByLabel = async (
       FROM 
           events
       WHERE
-          (timestamp > ? AND timestamp < ?)  AND event_name != '-' 
+          (timestamp BETWEEN ? AND ?)  AND event_name != '-' 
       GROUP BY 
           event_name
       ORDER BY 
@@ -139,7 +139,7 @@ module.exports.getCountByLabel = async (
       FROM
           events
       WHERE
-          timestamp > ? AND timestamp < ?  AND event_name != '-' 
+          timestamp BETWEEN ? AND ?  AND event_name != '-' 
       `;
 
     [[totalData]] = await db.query(getTotalQuery, [
@@ -166,7 +166,7 @@ module.exports.getUsersByEventName = async (
   try {
     const usersByEventNameQuery = `
   SELECT
-      e.event_action AS 'Event Name', COUNT(DISTINCT u.visitor_id) AS Users
+      e.event_action AS 'Event Name', COUNT(DISTINCT u.user_id) AS Users
   FROM 
       events as e
   JOIN
@@ -174,7 +174,7 @@ module.exports.getUsersByEventName = async (
   JOIN
       users as u on u.visitor_id = v.visitor_id
   WHERE
-      timestamp > ? AND timestamp < ?
+      timestamp BETWEEN ? AND ?
   GROUP BY 
       event_action
   ORDER BY 
@@ -190,7 +190,7 @@ module.exports.getUsersByEventName = async (
 
     const getTotalQuery = `
     SELECT
-        COUNT(DISTINCT u.visitor_id) as Total
+        COUNT(DISTINCT u.user_id) as Total
     FROM 
         events as e
     JOIN
@@ -198,7 +198,7 @@ module.exports.getUsersByEventName = async (
     JOIN
         users as u on u.visitor_id = v.visitor_id
     WHERE
-        timestamp > ? AND timestamp < ?
+        timestamp BETWEEN ? AND ?
     `;
 
     [[totalData]] = await db.query(getTotalQuery, [

@@ -19,7 +19,7 @@ module.exports.getUsersByCountry = async (
             JOIN
                 users as u ON u.visitor_id = v.visitor_id 
             WHERE
-                session_start >= ? AND session_start < ?
+                session_start BETWEEN ? AND ?
             GROUP BY 
                 Country
             ORDER BY
@@ -43,7 +43,7 @@ module.exports.getUsersByCountry = async (
         JOIN
             users as u ON u.visitor_id = v.visitor_id 
         WHERE
-            session_start >= ? AND session_start < ?
+            session_start BETWEEN ? AND ?
           `;
 
         [[totalData]] = await db.query(getTotalQuery, [
@@ -78,7 +78,7 @@ module.exports.getUsersByCity = async (
             JOIN
                 users as u ON u.visitor_id = v.visitor_id 
             WHERE
-                session_start >= ? AND session_start < ?
+                session_start BETWEEN ? AND ?
             GROUP BY 
                 City
             ORDER BY
@@ -102,7 +102,7 @@ module.exports.getUsersByCity = async (
         JOIN
             users as u ON u.visitor_id = v.visitor_id 
         WHERE
-            session_start >= ? AND session_start < ?
+            session_start BETWEEN ? AND ?
           `;
 
         [[totalData]] = await db.query(getTotalQuery, [
@@ -137,7 +137,7 @@ module.exports.getUsersByDeviceType = async (
             JOIN 
                 visits as v ON v.visitor_id = u.visitor_id 
             WHERE
-                session_start >= ? AND session_start < ?
+                session_start BETWEEN ? AND ?
             GROUP BY 
                 d.device_category
             ORDER BY
@@ -161,7 +161,7 @@ module.exports.getUsersByDeviceType = async (
         JOIN 
             visits as v ON v.visitor_id = u.visitor_id 
         WHERE
-            session_start >= ? AND session_start < ?
+            session_start BETWEEN ? AND ?
           `;
 
         [[totalData]] = await db.query(getTotalQuery, [
@@ -196,7 +196,7 @@ module.exports.getUsersByBrowser = async (
             JOIN 
                 visits as v ON v.visitor_id = u.visitor_id 
             WHERE
-                session_start >= ? AND session_start < ?
+                session_start BETWEEN ? AND ?
             GROUP BY 
                 d.browser
             ORDER BY
@@ -220,7 +220,7 @@ module.exports.getUsersByBrowser = async (
         JOIN 
             visits as v ON v.visitor_id = u.visitor_id 
         WHERE
-            session_start >= ? AND session_start < ?
+            session_start BETWEEN ? AND ?
           `;
 
         [[totalData]] = await db.query(getTotalQuery, [
@@ -255,7 +255,7 @@ module.exports.getUsersByOperatingSystem = async (
             JOIN 
                 visits as v ON v.visitor_id = u.visitor_id 
             WHERE
-                session_start >= ? AND session_start < ?
+                session_start BETWEEN ? AND ?
             GROUP BY 
                 d.operating_system
             ORDER BY
@@ -279,7 +279,7 @@ module.exports.getUsersByOperatingSystem = async (
         JOIN 
             visits as v ON v.visitor_id = u.visitor_id 
         WHERE
-            session_start >= ? AND session_start < ?
+            session_start BETWEEN ? AND ?
           `;
 
         [[totalData]] = await db.query(getTotalQuery, [
