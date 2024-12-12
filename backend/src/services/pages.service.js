@@ -75,7 +75,7 @@ module.exports.getSessionsByPageReferrer = async (
     JOIN
         visits v ON r.visit_id = v.visit_id
     WHERE
-        session_start >= ? AND session_start < ?
+        session_start BETWEEN ? AND ?
     GROUP BY
         r.referrer_url
     ORDER BY
@@ -91,13 +91,13 @@ module.exports.getSessionsByPageReferrer = async (
 
     const getTotalQuery = `
     SELECT
-        COUNT(DISTINCT v.visitor_id) as Total
+        COUNT(DISTINCT v.visit_id) as Total
     FROM 
         referrals r
     JOIN
         visits v ON r.visit_id = v.visit_id
     WHERE
-        session_start >= ? AND session_start < ?
+        session_start BETWEEN ? AND ?
     `;
 
     [[totalData]] = await db.query(getTotalQuery, [
@@ -131,7 +131,7 @@ module.exports.getUsersByPageTitle = async (
     JOIN
         visits as v ON p.visit_id = v.visit_id
     WHERE
-        session_start >= ? AND session_start < ?
+        session_start BETWEEN ? AND ?
     GROUP BY
         p.page_title
     ORDER BY
@@ -153,7 +153,7 @@ module.exports.getUsersByPageTitle = async (
     JOIN
         visits as v ON p.visit_id = v.visit_id
     WHERE
-        session_start >= ? AND session_start < ?
+        session_start BETWEEN ? AND ?
     `;
 
     [[totalData]] = await db.query(getTotalQuery, [
@@ -178,7 +178,7 @@ module.exports.getViewsByPageLocation = async (
   endDate
 ) => {
   try {
-    const usersByPageUrlQuery = `
+    const viewsByPageLocationQuery = `
     SELECT
         page_url AS 'Page URL',
         COUNT(*) AS Views
@@ -193,7 +193,7 @@ module.exports.getViewsByPageLocation = async (
     LIMIT 5 OFFSET ?;
       `;
 
-    [values] = await db.query(usersByPageUrlQuery, [
+    [values] = await db.query(viewsByPageLocationQuery, [
       startDate,
       endDate,
       offset

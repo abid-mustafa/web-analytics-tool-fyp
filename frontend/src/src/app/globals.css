@@ -1,17 +1,87 @@
-/* Globals.css */
-body {
+* {
   margin: 0;
-  font-family: "Arial", sans-serif;
-  background-color: #f9f9f9;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.page-container {
+html, body {
+  height: 100%;
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+/* Flex container setup */
+.dashboard {
   display: flex;
+  height: 100vh;
+  overflow: hidden;
 }
 
-.main-content {
-  flex-grow: 1;
-  background-color: #ffffff; /* White content background */
-  height: 100vh; /* Ensure it starts with full height */
-  overflow-y: auto; /* Allow scrolling for long content */
+/* Ensure content aligns properly */
+.content {
+  flex: 1;
+  margin-left: 40px;
+  transition: margin-left 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  background-color: #f8f9fa;
+  overflow-y: auto;
+  height: 100vh;
+}
+
+.sidebar:hover + .content {
+  margin-left: 40px;
+}
+
+.date-picker-form {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* Push datepickers to the right */
+  gap: 20px;
+  padding: 10px 20px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #ddd;
+  position: sticky; /* Makes the header sticky */
+  top: 0; /* Stick to the top of the page */
+  z-index: 1000; /* Ensure it stays above other content */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow for better visibility */
+}
+
+.date-picker-form label {
+  font-weight: bold;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.date-picker-form input {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.date-picker-form button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.date-picker-form button:hover {
+  background-color: #0056b3;
 }
