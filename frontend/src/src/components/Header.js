@@ -1,11 +1,15 @@
+"use client"
+
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../styles/Header.css';
 
 export default function Header({ onDateChange }) {
-    const [fromDate, setFromDate] = useState(null);
-    const [toDate, setToDate] = useState(null);
+    const defaultDate = new Date();
+    const [fromDate, setFromDate] = useState(defaultDate);
+    const [toDate, setToDate] = useState(defaultDate);
+
 
     const handleSubmit = () => {
         if (fromDate && toDate) {

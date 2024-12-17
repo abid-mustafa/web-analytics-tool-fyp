@@ -5,7 +5,7 @@ import UserRelated from '../components/AnalyticsDropdown/UserRelated';
 import Sidebar from '../components/Sidebar';
 import './globals.css';
 
-const baseURL = "http://172.16.83.93:5000/api/";
+const baseURL = "http://127.0.0.1:5000/api/";
 
 async function fetchData(endpoint: string) {
     const res = await fetch(endpoint, { cache: 'no-store' });
@@ -16,8 +16,12 @@ async function fetchData(endpoint: string) {
 }
 
 export default async function Home({ searchParams }: { searchParams: { from?: string; to?: string } }) {
+    const today = new Date();
+    const formattedToday = today.toISOString().split('T')[0]; // Static format
+
     const fromDate = searchParams.from || '2024-10-01';
-    const toDate = searchParams.to || '2024-10-02';
+    const toDate = searchParams.to || formattedToday; // Use consistent default
+
 
     // Fetch data based on dates
     const countByCategory = await fetchData(`${baseURL}events/event-count-by-event-category/?start_date=${fromDate}&end_date=${toDate}&offset=0`);
@@ -59,7 +63,7 @@ export default async function Home({ searchParams }: { searchParams: { from?: st
                 />
                 <PageRelated
                     viewsByPageTitle={viewsByPageTitle}
-                    sessionsByPageReferrer={sessionsByPageReferrer}
+                    // sessionsByPageReferrer={sessionsByPageReferrer}
                     usersByPageTitle={usersByPageTitle}
                     viewsByPageLocation={viewsByPageLocation}
                 />
